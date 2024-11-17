@@ -2,8 +2,8 @@
 session_start();
 
 if ($_GET['confirmed'] ?? '' === 'true') {
-    session_destroy(); // Destroy the session and unset all session variables
-    header('Location: login.php'); // Redirect to the login page
+    session_destroy(); 
+    header('Location: login.php'); 
     exit();
 }
 ?>

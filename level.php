@@ -1,8 +1,8 @@
 <?php
-session_start(); // Start session
+session_start(); 
 
 if (!isset($_SESSION["emailid"])) {
-    header("Location: login.php"); // Redirect to login page if not logged in
+    header("Location: login.php"); 
 }
 ?>
 <!DOCTYPE html>
@@ -12,7 +12,6 @@ if (!isset($_SESSION["emailid"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Choose Level</title>
     <link rel="stylesheet" href="level.css">
-
 </head>
 <body>
     <h1 class="header1">Choose Your <span class="header1span">Level</span></h1>
@@ -32,17 +31,16 @@ if (!isset($_SESSION["emailid"])) {
 <script>
     let chosenLevel = null;
 
-        function chooseLevel(level) {
-    chosenLevel = level;
-    showBeginMessage();
+    function chooseLevel(level) {
+        chosenLevel = level;
+        showBeginMessage();
 
-    // Redirect to the selected game page with the difficulty level as a query parameter
-    let gamePage = `game2.php?level=${level}`;
+        let gamePage = `game2.php?level=${level}`;
 
-    setTimeout(function() {
-        window.location.href = gamePage;
-    }, 2000);
-}
+        setTimeout(function() {
+            window.location.href = gamePage;
+        }, 2000);
+    }
 
 
     function showBeginMessage() {

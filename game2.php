@@ -1,18 +1,10 @@
 <?php
-session_start();
+session_start(); 
 
-// Check if the user is logged in
-if (isset($_SESSION["emailid"])) {
-  echo "Welcome, " . htmlspecialchars($_SESSION["emailid"]) . "!";
-
-}else{
-    // Redirect to the login page if not logged in
-    header("Location: login.php");
-    exit(); // Stop further execution after the redirect
+if (!isset($_SESSION["emailid"])) {
+    header("Location: login.php"); 
 }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +15,6 @@ if (isset($_SESSION["emailid"])) {
   <style>
     #feedback-overlay button {
       display: flex;
-      margin-top: 20px;
       padding: 10px;
       border: none;
       border-radius: 8px;
@@ -65,19 +56,16 @@ if (isset($_SESSION["emailid"])) {
     let correctAnswer;
     const feedbackOverlay = document.getElementById('feedback-overlay');
     const feedbackMessage = document.getElementById('feedback-message');
-    let timerInterval;  // Declare timerInterval globally to control it
+    let timerInterval;  
 
-    // Fetch question data from API
     fetch('https://marcconrad.com/uob/banana/api.php')
       .then(response => response.json())
       .then(data => {
-        const questionImage = data.question;  // Image URL
-        correctAnswer = data.solution;        // Correct answer
+        const questionImage = data.question; 
+        correctAnswer = data.solution;       
 
-        // Display the image
         document.getElementById('question-image').src = questionImage;
 
-        // Generate random answers including the correct one
         answerOptions = [correctAnswer];
         while (answerOptions.length < 4) {
           const randomNum = Math.floor(Math.random() * 10) + 1;
@@ -87,38 +75,33 @@ if (isset($_SESSION["emailid"])) {
         }
         answerOptions = answerOptions.sort(() => Math.random() - 0.5);
 
-        // Assign answers to buttons
         document.getElementById('btn1').textContent = answerOptions[0];
         document.getElementById('btn2').textContent = answerOptions[1];
         document.getElementById('btn3').textContent = answerOptions[2];
         document.getElementById('btn4').textContent = answerOptions[3];
 
-        // Start the timer
         startTimer();
       })
       .catch(error => {
         console.error('Error fetching data:', error);
       });
 
-// Function to get the query parameter value
 function getQueryParameter(name) {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(name);
 }
 
-// Set the timer duration based on the difficulty level
 const difficultyLevel = getQueryParameter('level');
 let timerDuration;
 
 if (difficultyLevel === 'Easy') {
-    timerDuration = 30; // Easy level - 30 seconds
+    timerDuration = 30; 
 } else if (difficultyLevel === 'Medium') {
-    timerDuration = 20; // Medium level - 20 seconds
+    timerDuration = 20; 
 } else if (difficultyLevel === 'Hard') {
-    timerDuration = 10; // Hard level - 10 seconds
+    timerDuration = 10; 
 } 
 
-// Timer logic with the dynamic duration
 function startTimer() {
     let timeLeft = timerDuration;
     const timerFill = document.getElementById('timer-fill');
@@ -135,16 +118,14 @@ function startTimer() {
     }, 1000);
 }
 
-    // Show feedback and navigation options
     function showFeedback(message, color) {
       feedbackMessage.textContent = message;
       feedbackMessage.style.color = color;
       feedbackOverlay.style.display = 'flex';
     }
 
-    // Check the player's answer
     function checkAnswer(answer) {
-      clearInterval(timerInterval);  // Stop the timer when an answer is selected
+      clearInterval(timerInterval);  
       if (answer === correctAnswer) {
         showFeedback("Wow, you're right!", "green", "<br>");
       } else {
@@ -152,13 +133,12 @@ function startTimer() {
       }
     }
 
-    // Navigation actions
     function goHome() {
-      window.location.href = 'level.html';  // Adjust to your scoreboard page URL
+      window.location.href = 'level.php';  
     }
 
     function restartGame() {
-      location.reload();  // Reloads the page to start a new game
+      location.reload(); 
     }
   </script>
 

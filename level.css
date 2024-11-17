@@ -50,7 +50,6 @@ body {
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
-/* Zoom-in animation */
 @keyframes zoomIn {
     0% {
         transform: scale(0.5);
@@ -62,7 +61,6 @@ body {
     }
 }
 
-/* Let's Begin message styling */
 .begin-message {
     position: absolute;
     top: 50%;
@@ -84,7 +82,6 @@ body {
     overflow-y: hidden;
 }
 
-/* Show the "Let's Begin!" message */
 .show {
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
