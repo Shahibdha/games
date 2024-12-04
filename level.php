@@ -14,42 +14,19 @@ if (!isset($_SESSION["emailid"])) {
     <link rel="stylesheet" href="level.css">
 </head>
 <body>
-    <h1 class="header1">Choose Your <span class="header1span">Level</span></h1>
+    <h1>Choose Your <span>Level</span></h1>
     <div class="container">
         <div class="levels">
             <div class="level1" onclick="chooseLevel('Easy')">Easy</div>
-        </div>
-        <div class="levels">
             <div class="level1" onclick="chooseLevel('Medium')">Medium</div>
-        </div>
-        <div class="levels">
             <div class="level1" onclick="chooseLevel('Hard')">Hard</div>
         </div>
     </div>
-    <div id="beginMessage" class="begin-message">Let's Begin!</div>
-
-<script>
-    let chosenLevel = null;
-
-    function chooseLevel(level) {
-        chosenLevel = level;
-        showBeginMessage();
-
-        let gamePage = `game2.php?level=${level}`;
-
-        setTimeout(function() {
-            window.location.href = gamePage;
-        }, 2000);
-    }
-
-
-    function showBeginMessage() {
-        if (chosenLevel) {
-            const message = document.getElementById('beginMessage');
-            message.style.display = 'block';
-            message.classList.add('show');
+    
+    <script>
+        function chooseLevel(level) {
+            window.location.href = `game2.php?level=${level}`;
         }
-    }
-</script>
+    </script>
 </body>
 </html>
