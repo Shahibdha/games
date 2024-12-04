@@ -8,6 +8,28 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="login.css">
+    <style>
+         body{
+            background-image: url('images/banana2.jpeg');
+            background-size: cover;
+            background-position: center;
+            height: 97vh;
+        }
+        body::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5); 
+                z-index: 1; 
+            }
+           .section{
+                position: relative; 
+                z-index: 2;
+            }
+    </style>
 </head>
 <body>
     <div class="section">
@@ -21,40 +43,49 @@
                         <div class="card-3d-wrap mx-auto">
                             <div class="card-3d-wrapper">
                                 
-                                <?php 
-                                session_start();
-                                $con = mysqli_connect("localhost", "root", "", "game");
+                            <?php 
+                            session_start();
+                            $con = mysqli_connect("localhost", "root", "", "game");
 
-                                if(isset($_POST["login_submit"])) {
-                                    $userName = $_POST["logemail"];
-                                    $password = $_POST["logpass"];
-                                    
-                                    $sql = "SELECT * FROM `user` WHERE `email`='$userName' AND `pass`='$password'";
-                                    $results = mysqli_query($con, $sql);
+                            if(isset($_POST["login_submit"])) {
+                                $userName = $_POST["logemail"];
+                                $password = $_POST["logpass"];
+                                
+                                $sql = "SELECT * FROM `user` WHERE `email`='$userName'";
+                                $results = mysqli_query($con, $sql);
 
-                                    if(mysqli_num_rows($results) > 0) {
+                                if(mysqli_num_rows($results) > 0) {
+                                    $row = mysqli_fetch_assoc($results);
+                                    $storedHashedPassword = $row['pass'];
+
+                                    if(password_verify($password, $storedHashedPassword)) {
                                         $_SESSION["emailid"] = $userName;
-                                        header("Location: level.php");
+                                        header("Location: main.php");
                                         exit;
                                     } else {
                                         echo "<script>alert('Invalid login credentials');</script>";
                                     }
+                                } else {
+                                    echo "<script>alert('Invalid login credentials');</script>";
                                 }
+                            }
 
-                                if(isset($_POST["signup_submit"])) {
-                                    $username = $_POST["regname"];
-                                    $emailid = $_POST["regemail"];
-                                    $passid = $_POST["regpass"];
+                            if(isset($_POST["signup_submit"])) {
+                                $username = $_POST["regname"];
+                                $emailid = $_POST["regemail"];
+                                $passid = $_POST["regpass"];
 
-                                    $sql = "INSERT INTO `user`(`name`, `email`, `pass`) VALUES ('$username', '$emailid', '$passid')";
-                                    
-                                    if(mysqli_query($con, $sql)) {
-                                        echo "<script>alert('Registration successful! Please log in.');</script>";
-                                    } else {
-                                        die("Error: " . mysqli_error($con));
-                                    }
+                                $hashedPassword = password_hash($passid, PASSWORD_BCRYPT);
+
+                                $sql = "INSERT INTO `user`(`name`, `email`, `pass`) VALUES ('$username', '$emailid', '$hashedPassword')";
+                                
+                                if(mysqli_query($con, $sql)) {
+                                    echo "<script>alert('Registration successful! Please log in.');</script>";
+                                } else {
+                                    die("Error: " . mysqli_error($con));
                                 }
-                                ?>
+                            }
+                            ?>
 
                                 <div class="card-front">
                                     <div class="center-wrap">
